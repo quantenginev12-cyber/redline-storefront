@@ -430,10 +430,61 @@
       .closing-line em { font-style: normal; background: linear-gradient(to top, #000000 0%, #000000 30%, #4a0413 46%, #a31230 64%, #e11d48 82%, #ff2a4b 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; filter: drop-shadow(0 0 14px rgba(255, 42, 75, .30)); }
       .closing-sub { position: relative; margin: 0 auto; max-width: 520px; color: #9ba0a8; font-size: 13px; }
       @media (max-width: 650px) { .values { grid-template-columns: repeat(2, 1fr); } }
+
+      .site-head { display: flex; align-items: center; gap: 26px; padding: 14px 28px; background: #050506; border-bottom: 2px solid rgba(225, 29, 72, .65); position: relative; z-index: 6; }
+      .brand { display: flex; align-items: center; gap: 13px; text-decoration: none; }
+      .brand img { width: 54px; height: 54px; object-fit: cover; border-radius: 9px; display: block; }
+      .brand-name { color: #f4f5f7; font-family: "Archivo Black", "Anton", Inter, sans-serif; font-size: 14.5px; letter-spacing: .05em; line-height: 1.2; }
+      .brand-name em { display: block; font-style: normal; color: #ff2a4b; }
+      .site-nav { margin-left: auto; display: flex; gap: 28px; }
+      .site-nav a { color: #d8dbe1; text-decoration: none; font-size: 13.5px; font-weight: 600; }
+      .site-nav a:hover { color: #ff2a4b; }
+      .get-started { border: 1.5px solid #e11d48; border-radius: 8px; color: #ffffff; text-decoration: none; font-size: 13.5px; font-weight: 700; padding: 9px 18px; background: rgba(225, 29, 72, .10); white-space: nowrap; }
+      .redline-tag { text-align: center; color: #eef0f3; font-size: 11.5px; font-weight: 600; letter-spacing: .42em; text-indent: .42em; padding: 18px 10px 2px; }
+      .landing { position: relative; overflow: hidden; max-width: 1180px; margin: 0 auto; padding: 30px 28px 36px; }
+      .streaks { position: absolute; top: 0; right: 0; width: 36%; height: 100%; pointer-events: none; background: linear-gradient(100deg, transparent 25%, rgba(225, 29, 72, .05) 55%, rgba(225, 29, 72, .13) 80%, rgba(255, 42, 75, .18) 100%); }
+      .streaks::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 30px, rgba(255, 42, 75, .09) 30px 31.5px, transparent 31.5px 62px); -webkit-mask-image: linear-gradient(to right, transparent, #000 65%); mask-image: linear-gradient(to right, transparent, #000 65%); }
+      .landing-h1 { margin: 0; position: relative; }
+      .landing-svg { display: block; width: 100%; max-width: 880px; height: auto; filter: drop-shadow(0 0 20px rgba(255, 42, 75, .25)); }
+      .landing-svg text { font-family: "Archivo Black", "Anton", Inter, sans-serif; }
+      .landing-copy { position: relative; margin: 20px 0 0; max-width: 560px; color: #c9ccd2; font-size: 16.5px; line-height: 1.55; }
+      .landing .hero-actions { position: relative; margin-top: 24px; }
+      .horizon { position: relative; overflow: hidden; text-align: center; padding: 58px 20px 52px; border-top: 1px solid #ffffff10; background: #050506; }
+      .horizon::before { content: ""; position: absolute; left: 50%; bottom: -160px; transform: translateX(-50%); width: 135%; height: 320px; background: radial-gradient(ellipse at 50% 100%, rgba(225, 29, 72, .30), rgba(225, 29, 72, .07) 48%, transparent 72%); pointer-events: none; }
+      .horizon::after { content: ""; position: absolute; left: 50%; bottom: -162px; transform: translateX(-50%); width: 120%; height: 320px; border-top: 2px solid rgba(255, 90, 115, .55); border-radius: 50%; pointer-events: none; }
+      .horizon-eyebrow { position: relative; color: #ff5a73; font-size: 11px; font-weight: 700; letter-spacing: .38em; text-indent: .38em; }
+      .horizon-line { position: relative; margin: 12px 0 8px; color: #f7f8fa; font: 400 clamp(30px, 4.6vw, 50px)/1.1 "Anton", "Archivo Black", Inter, sans-serif; }
+      .horizon-sub { position: relative; margin: 0 auto; max-width: 480px; color: #9ba0a8; font-size: 13.5px; }
+      .about-wrap { margin: 2px 0 10px; }
+      @media (max-width: 760px) { .site-nav { display: none; } .site-head { padding: 12px 16px; gap: 14px; } .landing { padding: 22px 18px 28px; } .redline-tag { letter-spacing: .3em; text-indent: .3em; font-size: 10.5px; } }
 </style>
   </head>
   <body>
-    <div class="top-banner"><img src="quantengineer-labs-banner.jpg" alt="QuantEngineer Labs — Red Line, premium digital assets"><canvas id="matrixRain" aria-hidden="true"></canvas><i class="tick tl"></i><i class="tick tr"></i><i class="tick bl"></i><i class="tick br"></i><span class="banner-tag">RED LINE · BUILD 2026.11</span></div>
+    <header class="site-head">
+      <a class="brand" href="#home" aria-label="QuantEngineer Labs home">
+        <img src="quantengineer-labs-avatar-centered.jpg" alt="QuantEngineer Labs logo">
+        <span class="brand-name">QUANT ENGINEER <em>LABS</em></span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#collection">Explore</a>
+        <a href="#collection">Products</a>
+        <a href="#operations">Labs</a>
+        <a href="#studio-note">About</a>
+      </nav>
+      <a class="get-started" href="#collection">Get Started</a>
+    </header>
+    <div class="redline-tag">RED LINE&nbsp;&nbsp;·&nbsp;&nbsp;PREMIUM DIGITAL ASSETS</div>
+    <section class="landing">
+      <div class="streaks" aria-hidden="true"></div>
+      <h1 class="landing-h1"><svg class="landing-svg" viewBox="0 0 920 392" role="img" aria-label="Built for the boldly capable." preserveAspectRatio="xMinYMid meet"><defs><linearGradient id="chromeG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdfdff"/><stop offset=".35" stop-color="#d7dbe0"/><stop offset=".55" stop-color="#79828d"/><stop offset=".78" stop-color="#eef0f3"/><stop offset="1" stop-color="#969da6"/></linearGradient><linearGradient id="redG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9db0"/><stop offset=".16" stop-color="#ff4263"/><stop offset=".45" stop-color="#e8112d"/><stop offset=".78" stop-color="#b30a24"/><stop offset="1" stop-color="#6e0616"/></linearGradient></defs><text x="2" y="92" font-size="98" fill="url(#chromeG)">BUILT FOR THE</text><text x="2" y="222" font-size="124" fill="url(#redG)">BOLDLY</text><text x="2" y="352" font-size="124" fill="url(#redG)">CAPABLE.</text></svg></h1>
+      <p class="landing-copy">QuantEngineer Labs delivers next-generation digital tools, encrypted vaults, and precision trading engines — engineered for those who demand more.</p>
+      <div class="hero-actions"><a class="button-primary" href="#collection">Explore the Collection <span aria-hidden="true">→</span></a><a class="button-secondary" href="#studio-note">Discover the Studio</a></div>
+    </section>
+    <section class="horizon" aria-label="Innovation. Control. Freedom.">
+      <div class="horizon-eyebrow">— QUANT ENGINEER LABS</div>
+      <p class="horizon-line">Innovation. Control. Freedom.</p>
+      <p class="horizon-sub">Premium tools built for sovereign individuals, traders, and creators.</p>
+    </section>
     <div class="app">
       <aside class="sidebar">
         <div class="nav-label">WORKSPACE</div>
@@ -451,13 +502,7 @@
           <div class="top-right"><span class="local-badge"><i></i> PREMIUM DIGITAL ASSETS</span><span class="top-avatar" aria-hidden="true">RL</span></div>
         </header>
         <div class="page">
-          <section class="hero">
-            <div>
-              <div class="eyebrow">QUANT ENGINEER LABS · PREMIUM DIGITAL ASSETS</div>
-              <h1><span class="l1">Built for the</span><span class="l2wrap"><svg class="l2svg l2-wide" viewBox="0 0 960 118" role="img" aria-label="Boldly capable." preserveAspectRatio="xMinYMid meet"><defs><linearGradient id="hg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#000000"/><stop offset=".30" stop-color="#000000"/><stop offset=".45" stop-color="#4a0413"/><stop offset=".63" stop-color="#a31230"/><stop offset=".82" stop-color="#e11d48"/><stop offset="1" stop-color="#ff2a4b"/></linearGradient></defs><text x="2" y="90" font-size="96" fill="url(#hg)">BOLDLY CAPABLE.</text></svg><svg class="l2svg l2-narrow" viewBox="0 0 640 240" role="img" aria-label="Boldly capable." preserveAspectRatio="xMinYMid meet"><defs><linearGradient id="hg2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#000000"/><stop offset=".30" stop-color="#000000"/><stop offset=".45" stop-color="#4a0413"/><stop offset=".63" stop-color="#a31230"/><stop offset=".82" stop-color="#e11d48"/><stop offset="1" stop-color="#ff2a4b"/></linearGradient></defs><text x="2" y="92" font-size="112" fill="url(#hg2)">BOLDLY</text><text x="2" y="212" font-size="112" fill="url(#hg2)">CAPABLE.</text></svg></span></h1>
-              <p class="hero-copy">The premium shelf of QuantEngineer Labs. High-performance digital systems and creative tools, presented with uncompromising clarity, precision, and character.</p>
-              <div class="hero-actions"><a class="button-primary" href="#collection">Explore the collection <span aria-hidden="true">↗</span></a><a class="button-secondary" href="#studio-note">Discover the studio</a></div>
-            </div>
+          <section class="about-wrap" aria-label="About the studio">
             <div class="about-card">
               <h3>Software you actually own.</h3>
               <p>QuantEngineer Labs builds sovereign tools — encrypted vaults, autonomous AI agent systems, and precision trading engines — designed to run on your machine, under your control, with zero telemetry and no subscription holding your work hostage.</p>
