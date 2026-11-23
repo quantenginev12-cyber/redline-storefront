@@ -82,7 +82,7 @@
       .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: #c2c6cd; }
       .eyebrow::before { width: 19px; height: 1px; background: var(--red); box-shadow: 0 0 8px #fb294780; content: ""; }
       h1, h2, h3, p { margin-top: 0; }
-      h1 { position: relative; z-index: 0; margin: 15px 0 12px; color: #f4f5f7; font: 400 clamp(44px, 5.6vw, 74px)/1.02 "Anton", "Archivo Black", Inter, sans-serif; letter-spacing: .01em; text-transform: uppercase; text-wrap: balance; text-shadow: 0 0 1px #fff, 0 0 18px rgba(245, 248, 255, .18), 0 2px 25px rgba(240, 244, 250, .08); }
+      h1 { position: relative; z-index: 0; margin: 15px 0 12px; color: #f4f5f7; font: 400 clamp(44px, 5.6vw, 74px)/1.02 "Anton", "Archivo Black", Inter, sans-serif; letter-spacing: .01em; text-transform: uppercase; text-wrap: balance; text-shadow: none; }
       h1 em { font-family: "Archivo Black", "Anton", Inter, sans-serif; font-style: normal; font-size: 1.1em; letter-spacing: 0; text-shadow: none; background: linear-gradient(to top, #000000 0%, #000000 34%, #4a0413 48%, #a31230 66%, #e11d48 84%, #ff2a4b 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; filter: drop-shadow(0 0 16px rgba(255, 42, 75, .38)) drop-shadow(0 0 44px rgba(225, 29, 72, .25)); }
       .hero-copy { max-width: 490px; margin: 0; color: #a6aab1; font-size: 12px; line-height: 1.8; }
       .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 21px; }
@@ -400,7 +400,31 @@
         .hero-emblem { width: 100%; height: auto; }
         .product-device { width: min(86%, 270px); }
       }
-    </style>
+    
+      .chrome { background: linear-gradient(180deg, #ffffff 0%, #dfe3e9 34%, #878e99 55%, #f2f4f7 78%, #a3aab4 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+      .hero { position: relative; }
+      .hero::after { content: ""; position: absolute; left: 50%; bottom: -120px; transform: translateX(-50%); width: 125%; height: 230px; background: radial-gradient(ellipse at 50% 100%, rgba(225, 29, 72, .20), rgba(225, 29, 72, .05) 45%, transparent 70%); pointer-events: none; }
+      .values { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #ffffff10; border: 1px solid #ffffff10; border-radius: 10px; overflow: hidden; margin: 26px 0 4px; }
+      .value { background: #0a0a0c; padding: 20px 14px 16px; text-align: center; }
+      .value svg { width: 23px; height: 23px; fill: none; stroke: #ff2a4b; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+      .value strong { display: block; margin-top: 9px; color: #eef0f3; font-size: 12.5px; letter-spacing: .04em; }
+      .value span { display: block; margin-top: 3px; color: #8a8f98; font-size: 11px; }
+      .process { margin: 34px 0 0; border: 1px solid #ffffff10; border-radius: 10px; background: linear-gradient(180deg, #0c0c0f, #070709); padding: 24px 24px 20px; }
+      .process-title { margin: 6px 0 16px; color: #f4f5f7; font-size: 21px; }
+      .process-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+      .step { display: flex; align-items: center; gap: 9px; }
+      .step svg { width: 20px; height: 20px; fill: none; stroke: #ff2a4b; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+      .step strong { color: #e8eaee; font-size: 13px; letter-spacing: .05em; }
+      .process .arrow { color: #ff2a4b; opacity: .65; }
+      .closing { position: relative; overflow: hidden; text-align: center; padding: 64px 20px 58px; margin-top: 40px; border-top: 1px solid #ffffff10; }
+      .closing::before { content: ""; position: absolute; left: 50%; bottom: -150px; transform: translateX(-50%); width: 130%; height: 300px; background: radial-gradient(ellipse at 50% 100%, rgba(225, 29, 72, .26), rgba(225, 29, 72, .06) 48%, transparent 72%); pointer-events: none; }
+      .closing .eyebrow { justify-content: center; }
+      .closing .eyebrow::before { display: none; }
+      .closing-line { position: relative; margin: 10px 0 8px; font: 400 clamp(34px, 5vw, 58px)/1.05 "Anton", "Archivo Black", Inter, sans-serif; text-transform: uppercase; letter-spacing: .01em; color: #f4f5f7; }
+      .closing-line em { font-style: normal; background: linear-gradient(to top, #000000 0%, #000000 30%, #4a0413 46%, #a31230 64%, #e11d48 82%, #ff2a4b 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; filter: drop-shadow(0 0 14px rgba(255, 42, 75, .30)); }
+      .closing-sub { position: relative; margin: 0 auto; max-width: 520px; color: #9ba0a8; font-size: 13px; }
+      @media (max-width: 650px) { .values { grid-template-columns: repeat(2, 1fr); } }
+</style>
   </head>
   <body>
     <div class="top-banner"><img src="quantengineer-labs-banner.jpg" alt="QuantEngineer Labs — Red Line, premium digital assets"><canvas id="matrixRain" aria-hidden="true"></canvas><i class="tick tl"></i><i class="tick tr"></i><i class="tick bl"></i><i class="tick br"></i><span class="banner-tag">RED LINE · BUILD 2026.11</span></div>
@@ -424,7 +448,7 @@
           <section class="hero">
             <div>
               <div class="eyebrow">QUANT ENGINEER LABS · PREMIUM DIGITAL ASSETS</div>
-              <h1>Built for the<br><em>boldly capable.</em></h1>
+              <h1><span class="chrome">Built for the</span><br><em>boldly capable.</em></h1>
               <p class="hero-copy">The premium shelf of QuantEngineer Labs. High-performance digital systems and creative tools, presented with uncompromising clarity, precision, and character.</p>
               <div class="hero-actions"><a class="button-primary" href="#collection">Explore the collection <span aria-hidden="true">↗</span></a><a class="button-secondary" href="#studio-note">Discover the studio</a></div>
             </div>
@@ -443,7 +467,14 @@
           </section>
 
           <section id="collection" aria-labelledby="collection-heading">
-            <div class="section-head"><div><div class="eyebrow">FEATURED DIGITAL ASSET</div><h2 id="collection-heading">The signature collection</h2></div><span class="section-note">Checkout and delivery by Gumroad</span></div>
+            <section class="values" aria-label="Sovereign principles">
+            <div class="value"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><strong>Privacy first</strong><span>No telemetry, no phone-home</span></div>
+            <div class="value"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><strong>Local control</strong><span>Runs on your machine</span></div>
+            <div class="value"><svg viewBox="0 0 24 24"><path d="M6 15c-2 0-3-1.3-3-3s1-3 3-3c3 0 9 6 12 6 2 0 3-1.3 3-3s-1-3-3-3c-3 0-9 6-12 6z"/></svg><strong>Fully portable</strong><span>Drives, folders, your rules</span></div>
+            <div class="value"><svg viewBox="0 0 24 24"><path d="M6 3h12l3 5-9 12L3 8l3-5z"/><path d="M3 8h18"/></svg><strong>Zero lock-in</strong><span>Own it outright, forever</span></div>
+          </section>
+
+          <div class="section-head"><div><div class="eyebrow">FEATURED DIGITAL ASSET</div><h2 id="collection-heading">The signature collection</h2></div><span class="section-note">Checkout and delivery by Gumroad</span></div>
             <article class="featured">
               <div class="featured-visual" aria-hidden="true">
                 <div class="product-device">
@@ -509,6 +540,23 @@
                 <div class="activity-row"><span class="activity-icon">⌗</span><span><strong>Responsive by design</strong><small>Desktop, tablet, and compact layouts</small></span><time>03</time></div>
               </div>
             </article>
+          </section>
+
+          <section class="process" aria-label="How every build ships">
+            <div class="micro-label">THE PROCESS</div>
+            <h3 class="process-title">How every build ships</h3>
+            <div class="process-row">
+              <div class="step"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 1 3.5 11.3c-.7.6-1 1-1 1.7h-5c0-.7-.3-1.1-1-1.7A6 6 0 0 1 12 3z"/><path d="M9.5 19h5M10.5 21.5h3"/></svg><strong>Design</strong></div><span class="arrow">&rarr;</span>
+              <div class="step"><svg viewBox="0 0 24 24"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"/></svg><strong>Develop</strong></div><span class="arrow">&rarr;</span>
+              <div class="step"><svg viewBox="0 0 24 24"><path d="M12 2l9 5v10l-9 5-9-5V7l9-5z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg><strong>Test</strong></div><span class="arrow">&rarr;</span>
+              <div class="step"><svg viewBox="0 0 24 24"><path d="M12 2.5c2.8 2 4 5.8 4 9.5l-4 4-4-4c0-3.7 1.2-7.5 4-9.5z"/><circle cx="12" cy="9" r="1.8"/><path d="M8 13l-2.2 5L10 17M16 13l2.2 5L14 17"/></svg><strong>Deploy</strong></div>
+            </div>
+          </section>
+
+          <section class="closing" aria-label="Closing statement">
+            <div class="eyebrow">QUANT ENGINEER LABS</div>
+            <p class="closing-line">Own it <em>outright.</em></p>
+            <p class="closing-sub">Premium digital assets for people who own their stack — sovereign individuals, traders, and creators.</p>
           </section>
 
           <footer><span><strong>RL</strong> &nbsp; RED LINE BY QUANT ENGINEER LABS</span><span>RED LINE STOREFRONT / 01</span><span>CHECKOUT BY GUMROAD</span></footer>
