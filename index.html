@@ -7,7 +7,7 @@
     <title>Red Line by QuantEngineer Labs</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap" rel="stylesheet">
     <style>
       :root {
         color-scheme: dark;
@@ -82,7 +82,7 @@
       .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: #c2c6cd; }
       .eyebrow::before { width: 19px; height: 1px; background: var(--red); box-shadow: 0 0 8px #fb294780; content: ""; }
       h1, h2, h3, p { margin-top: 0; }
-      h1 { position: relative; z-index: 0; margin: 15px 0 12px; color: #f4f5f7; font: 400 clamp(35px, 4.5vw, 55px)/1.05 "Archivo Black", Inter, "Avenir Next", "Segoe UI", sans-serif; letter-spacing: -0.5px; text-wrap: balance; text-shadow: 0 0 1px #fff, 0 0 18px rgba(245, 248, 255, .18), 0 2px 25px rgba(240, 244, 250, .08); }
+      h1 { position: relative; z-index: 0; margin: 15px 0 12px; color: #f4f5f7; font: 400 clamp(44px, 5.6vw, 74px)/1.02 "Anton", "Archivo Black", Inter, sans-serif; letter-spacing: .01em; text-transform: uppercase; text-wrap: balance; text-shadow: 0 0 1px #fff, 0 0 18px rgba(245, 248, 255, .18), 0 2px 25px rgba(240, 244, 250, .08); }
       h1 em { color: #ff4059; font-style: normal; font-weight: 550; text-shadow: 0 0 2px #fff4, 0 0 18px #ff294c52, 0 0 36px #ff294c24; }
       .hero-copy { max-width: 490px; margin: 0; color: #a6aab1; font-size: 12px; line-height: 1.8; }
       .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 21px; }
@@ -91,7 +91,7 @@
       .button-primary:hover { transform: translateY(-2px); background: linear-gradient(115deg, #ff596e, #f01f3c 60%, #c11731); box-shadow: 0 10px 29px #fa294752, inset 0 1px #ffffff7c; }
       .button-secondary { border: 1px solid #c4cbd23a; background: #ffffff06; color: #e2e4e8; }
       .button-secondary:hover { transform: translateY(-2px); border-color: #e5e8ed77; background: #ffffff0d; }
-      .top-banner { border-bottom: 1px solid #ffffff14; }
+      .top-banner { border-bottom: 1px solid #ffffff14; margin-left: 232px; }
       .top-banner img { display: block; width: 100%; height: auto; }
       .about-card { position: relative; border: 1px solid #ffffff12; border-radius: 10px; padding: 24px 24px 18px; background: linear-gradient(180deg, #ffffff07, transparent); }
       .about-card h3 { color: #f4f5f7; font-size: 19px; margin-bottom: 10px; }
@@ -209,13 +209,15 @@
       }
       @media (max-width: 900px) {
         .sidebar { width: 195px; }
+        .top-banner { margin-left: 195px; }
         main { margin-left: 195px; }
         .hero { grid-template-columns: minmax(0, 1fr) minmax(200px, .76fr); }
         .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .product-card:last-child { grid-column: 1 / -1; }
       }
       @media (max-width: 650px) {
-        .sidebar { position: static; width: auto; height: auto; padding: 13px 16px; border-right: 0; border-bottom: 1px solid #ffffff18; }
+        .sidebar { display: none; }
+        .top-banner { margin-left: 0; }
         .brand { padding: 0; }
         .brand-logo { width: min(100%, 190px); max-width: 190px; height: auto; }
         .nav-label, .nav, .sidebar-status { display: none; }
@@ -394,6 +396,7 @@
     </style>
   </head>
   <body>
+    <div class="top-banner"><img src="quantengineer-labs-banner.jpg" alt="QuantEngineer Labs — Red Line, premium digital assets"></div>
     <div class="app">
       <aside class="sidebar">
         <div class="nav-label">WORKSPACE</div>
@@ -406,7 +409,6 @@
       </aside>
 
       <main id="home">
-        <div class="top-banner"><img src="quantengineer-labs-banner.jpg" alt="QuantEngineer Labs — Red Line, premium digital assets"></div>
         <header class="topbar">
           <div class="breadcrumb">QuantEngineer Labs <span>/</span> Red Line</div>
           <div class="top-right"><span class="local-badge"><i></i> PREMIUM DIGITAL ASSETS</span><span class="top-avatar" aria-hidden="true">RL</span></div>
@@ -414,7 +416,7 @@
         <div class="page">
           <section class="hero">
             <div>
-              <div class="eyebrow">QUANTENGINEER LABS · PREMIUM DIGITAL ASSETS</div>
+              <div class="eyebrow">QUANT ENGINEER LABS · PREMIUM DIGITAL ASSETS</div>
               <h1>Built for the<br><em>boldly capable.</em></h1>
               <p class="hero-copy">The premium shelf of QuantEngineer Labs. High-performance digital systems and creative tools, presented with uncompromising clarity, precision, and character.</p>
               <div class="hero-actions"><a class="button-primary" href="#collection">Explore the collection <span aria-hidden="true">↗</span></a><a class="button-secondary" href="#studio-note">Discover the studio</a></div>
@@ -502,7 +504,7 @@
             </article>
           </section>
 
-          <footer><span><strong>RL</strong> &nbsp; RED LINE BY QUANTENGINEER LABS</span><span>RED LINE STOREFRONT / 01</span><span>CHECKOUT BY GUMROAD</span></footer>
+          <footer><span><strong>RL</strong> &nbsp; RED LINE BY QUANT ENGINEER LABS</span><span>RED LINE STOREFRONT / 01</span><span>CHECKOUT BY GUMROAD</span></footer>
         </div>
       </main>
     </div>
