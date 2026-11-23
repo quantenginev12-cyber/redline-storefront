@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#08090b">
+    <title>Red Line by QuantEngineer Labs</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --black: #08090b;
+        --black-raised: #0e1013;
+        --black-soft: #13161a;
+        --line: rgba(215, 220, 226, .13);
+        --line-hot: rgba(255, 43, 69, .48);
+        --red: #fb2947;
+        --red-bright: #ff4861;
+        --platinum: #e6e8eb;
+        --silver: #a9afb8;
+        --muted: #898e97;
+        --gold: #c8a86c;
+        --white-glow: rgba(242, 246, 255, .16);
+        font-family: Inter, "Avenir Next", "Segoe UI", system-ui, sans-serif;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        min-width: 320px;
+        min-height: 100vh;
+        margin: 0;
+        background:
+          radial-gradient(ellipse at 73% 10%, rgba(251, 41, 71, .10), transparent 34%),
+          radial-gradient(ellipse at 9% 67%, rgba(185, 194, 206, .035), transparent 31%),
+          linear-gradient(145deg, #0b0c0f, var(--black) 58%);
+        color: var(--platinum);
+        font-size: 13px;
+      }
+      a { color: inherit; text-decoration: none; }
+      button { font: inherit; }
+      button:focus-visible, a:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+      .app { min-height: 100vh; }
+      .sidebar {
+        position: fixed; inset: 0 auto 0 0; z-index: 3; display: flex; width: 232px;
+        flex-direction: column; padding: 25px 16px 18px; border-right: 1px solid #d5dbe122;
+        background: rgba(8, 9, 11, .96); box-shadow: 1px 0 #ffffff06;
+      }
+      .brand { display: flex; align-items: center; justify-content: center; padding: 0 0 25px; }
+      .brand-logo { display: block; width: 100%; max-width: 192px; height: auto; flex: 0 0 auto; filter: drop-shadow(0 0 12px #fb294724); }
+      .brand-copy { display: grid; gap: 5px; }
+      .brand-copy strong { color: #f3f4f6; font-size: 10px; letter-spacing: 1.65px; text-shadow: 0 0 17px #ffffff20; }
+      .brand-copy small { color: #858991; font: 8px Consolas, monospace; letter-spacing: .75px; }
+      .nav-label, .eyebrow, .micro-label { color: #858a93; font: 9px Consolas, monospace; letter-spacing: 1.5px; text-transform: uppercase; }
+      .nav-label { padding: 0 10px 11px; }
+      .nav { display: grid; gap: 4px; }
+      .nav a { display: flex; align-items: center; gap: 11px; padding: 11px 10px; border: 1px solid transparent; border-radius: 6px; color: #a8abb1; font-size: 11px; transition: background .2s ease, border-color .2s ease, color .2s ease; }
+      .nav a span { width: 17px; color: #c0c4ca; font-size: 15px; text-align: center; }
+      .nav a:hover { border-color: #ffffff19; background: #ffffff08; color: white; }
+      .nav a.active { border-color: #fb294743; background: linear-gradient(95deg, #fb294716, #ffffff04); color: #fff; box-shadow: inset 2px 0 var(--red); }
+      .nav a.active span { color: var(--red-bright); }
+      .sidebar-status { display: flex; gap: 10px; align-items: center; margin-top: auto; padding: 14px 9px 3px; border-top: 1px solid #ffffff15; }
+      .status-pip { width: 7px; height: 7px; flex: 0 0 auto; border-radius: 50%; background: #b7bdc5; box-shadow: 0 0 9px #cdd2db66; }
+      .sidebar-status strong, .sidebar-status small { display: block; }
+      .sidebar-status strong { color: #d7d9de; font-size: 10px; font-weight: 500; }
+      .sidebar-status small { margin-top: 4px; color: #858991; font-size: 9px; }
+      main { min-height: 100vh; margin-left: 232px; }
+      .topbar { display: flex; min-height: 62px; align-items: center; justify-content: space-between; gap: 16px; padding: 0 clamp(20px, 4vw, 53px); border-bottom: 1px solid #c5cbd31b; background: rgba(9, 10, 12, .72); backdrop-filter: blur(17px) saturate(135%); }
+      .breadcrumb { color: #92969d; font-size: 10px; }
+      .breadcrumb span { margin: 0 9px; color: #585d65; }
+      .top-right { display: flex; align-items: center; gap: 14px; }
+      .local-badge { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid #b5bbc325; border-radius: 999px; color: #c4c8ce; font: 8px Consolas, monospace; letter-spacing: .55px; }
+      .local-badge i { width: 6px; height: 6px; border-radius: 50%; background: #d5d9de; box-shadow: 0 0 7px #d5d9de77; }
+      .top-avatar { display: grid; width: 30px; height: 30px; place-items: center; border: 1px solid #afb6c04a; border-radius: 50%; background: linear-gradient(145deg, #262a30, #111316); color: #eceef1; font: 10px Georgia, serif; }
+      .page { width: min(1190px, 100%); margin: 0 auto; padding: 32px clamp(20px, 4vw, 53px) 25px; }
+      .hero { display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(250px, .82fr); align-items: center; gap: 20px; min-height: 270px; padding: 16px 0 30px; }
+      .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: #c2c6cd; }
+      .eyebrow::before { width: 19px; height: 1px; background: var(--red); box-shadow: 0 0 8px #fb294780; content: ""; }
+      h1, h2, h3, p { margin-top: 0; }
+      h1 { position: relative; z-index: 0; margin: 15px 0 12px; color: #f4f5f7; font: 600 clamp(38px, 5vw, 59px)/1.01 Inter, "Avenir Next", "Segoe UI", sans-serif; letter-spacing: -2.35px; text-wrap: balance; text-shadow: 0 0 1px #fff, 0 0 18px rgba(245, 248, 255, .18), 0 2px 25px rgba(240, 244, 250, .08); }
+      h1 em { color: #ff4059; font-style: normal; font-weight: 550; text-shadow: 0 0 2px #fff4, 0 0 18px #ff294c52, 0 0 36px #ff294c24; }
+      .hero-copy { max-width: 490px; margin: 0; color: #a6aab1; font-size: 12px; line-height: 1.8; }
+      .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 21px; }
+      .button-primary, .button-secondary { display: inline-flex; min-height: 40px; align-items: center; justify-content: center; gap: 9px; padding: 0 15px; border-radius: 5px; font-size: 10px; font-weight: 650; transition: transform .22s cubic-bezier(.16, 1, .3, 1), box-shadow .22s ease, background .22s ease; }
+      .button-primary { border: 1px solid #ff6477; background: linear-gradient(115deg, #ff3c57, #dd122f 60%, #a91026); color: white; box-shadow: 0 6px 24px #fa294733, inset 0 1px #ffffff56; text-shadow: 0 1px #790a1c88; }
+      .button-primary:hover { transform: translateY(-2px); background: linear-gradient(115deg, #ff596e, #f01f3c 60%, #c11731); box-shadow: 0 10px 29px #fa294752, inset 0 1px #ffffff7c; }
+      .button-secondary { border: 1px solid #c4cbd23a; background: #ffffff06; color: #e2e4e8; }
+      .button-secondary:hover { transform: translateY(-2px); border-color: #e5e8ed77; background: #ffffff0d; }
+      .hero-art {
+        position: relative; display: grid; min-height: 224px; overflow: hidden; place-items: center;
+        border: 1px solid #bec5cf30; border-radius: 11px;
+        background: radial-gradient(ellipse at 50% 49%, #fb29472a, transparent 39%), linear-gradient(145deg, #15171c, #0c0d10 68%);
+        box-shadow: inset 0 1px #ffffff13, 0 18px 48px #00000052;
+      }
+      .hero-art::before { position: absolute; inset: 0; background-image: linear-gradient(#ffffff08 1px, transparent 1px), linear-gradient(90deg, #ffffff08 1px, transparent 1px); background-size: 22px 22px; mask-image: radial-gradient(ellipse, #000 7%, transparent 76%); content: ""; }
+      .hero-art::after { position: absolute; inset: 8px; border: 1px solid #ffffff0b; border-radius: 7px; content: ""; pointer-events: none; }
+      .hero-emblem { position: relative; z-index: 1; display: block; width: 100%; height: auto; aspect-ratio: 1408 / 768; object-fit: contain; filter: drop-shadow(0 0 26px #fb294743) drop-shadow(0 12px 20px #000b); }
+      .art-caption { position: absolute; right: 14px; bottom: 12px; z-index: 2; color: #b5bac2; font: 8px Consolas, monospace; letter-spacing: 1px; }
+      .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0 0 25px; border: 1px solid #bdc3cc25; border-radius: 7px; background: linear-gradient(100deg, #ffffff06, #ffffff02); }
+      .stat { display: flex; min-height: 57px; align-items: center; gap: 11px; padding: 10px 17px; }
+      .stat + .stat { border-left: 1px solid #bdc3cc1b; }
+      .stat-mark { display: grid; width: 28px; height: 28px; flex: 0 0 auto; place-items: center; border: 1px solid #aeb5bf35; border-radius: 50%; color: #e8ebee; font-size: 13px; }
+      .stat small, .stat strong { display: block; }
+      .stat small { color: #8d929a; font: 8px Consolas, monospace; letter-spacing: .6px; }
+      .stat strong { margin-top: 4px; color: #e4e6e9; font-size: 10px; font-weight: 550; }
+      .section-head { display: flex; align-items: end; justify-content: space-between; gap: 14px; margin: 26px 0 13px; }
+      .section-head h2 { margin: 5px 0 0; color: #f0f1f3; font: 550 22px/1.2 Inter, "Segoe UI", sans-serif; letter-spacing: -.5px; text-shadow: 0 0 15px var(--white-glow); }
+      .section-note { color: #898e96; font-size: 9px; }
+      .featured {
+        position: relative; display: grid; grid-template-columns: minmax(220px, .72fr) minmax(0, 1.28fr); overflow: hidden;
+        border: 1px solid #c4cad333; border-radius: 9px;
+        background: radial-gradient(ellipse at 24% 54%, #f5264222, transparent 39%), linear-gradient(115deg, #16181c, #101114 56%, #141518);
+        box-shadow: inset 0 1px #ffffff16, 0 16px 38px #00000032;
+      }
+      .featured-visual { position: relative; display: grid; min-height: 232px; overflow: hidden; place-items: center; border-right: 1px solid #d4d9df1b; background: radial-gradient(circle at 50% 48%, #ff30402b, transparent 56%); }
+      .featured-visual::before { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, #ffffff08 0 1px, transparent 1px 20px), repeating-linear-gradient(90deg, #ffffff08 0 1px, transparent 1px 20px); mask-image: linear-gradient(transparent, #000 19%, #000 81%, transparent); content: ""; }
+      .product-device { position: relative; z-index: 1; display: grid; width: min(86%, 235px); height: auto; aspect-ratio: 1408 / 768; place-items: center; transform: perspective(580px) rotateY(-8deg) rotateX(3deg); border: 1px solid #d5dbe28c; border-radius: 8px; background: linear-gradient(140deg, #2e3238, #131519 52%, #25282d); box-shadow: 14px 20px 34px #0009, inset 1px 1px #ffffff45, inset -1px -1px #000b; }
+      .product-device::before { position: absolute; inset: 6px; border: 1px solid #ffffff23; border-radius: 6px; content: ""; }
+      .product-device svg { width: 80%; filter: drop-shadow(0 0 14px #fb29474d); }
+      .featured-copy { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 23px clamp(20px, 4vw, 39px); }
+      .pill { display: inline-flex; align-items: center; gap: 7px; padding: 6px 9px; border: 1px solid #fb29474a; border-radius: 999px; background: #fb294710; color: #ff8291; font: 8px Consolas, monospace; letter-spacing: .75px; }
+      .pill i { width: 5px; height: 5px; border-radius: 50%; background: var(--red); box-shadow: 0 0 8px var(--red); }
+      .featured-copy h3 { margin: 12px 0 6px; color: #f3f4f6; font: 550 23px/1.18 Inter, "Segoe UI", sans-serif; letter-spacing: -.65px; text-shadow: 0 0 16px var(--white-glow); }
+      .featured-copy p { max-width: 570px; margin: 0; color: #a6aab1; font-size: 10px; line-height: 1.72; }
+      .featured-meta { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 15px; margin-top: 17px; padding-top: 13px; border-top: 1px solid #ffffff19; }
+      .price { color: #f3f4f6; font-size: 19px; font-weight: 600; letter-spacing: -.5px; }
+      .price small { margin-left: 3px; color: #9da2a9; font-size: 8px; font-weight: 400; letter-spacing: .5px; }
+      .tiny-note { margin-top: 5px; color: #878b93; font: 8px Consolas, monospace; }
+      .product-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; gap: 12px; }
+      .product-card { display: flex; min-width: 0; flex-direction: column; padding: 11px; border: 1px solid #c5cbd324; border-radius: 8px; background: linear-gradient(145deg, #141619, #0e1013); box-shadow: inset 0 1px #ffffff0d, 0 9px 23px #00000021; transition: transform .25s cubic-bezier(.16, 1, .3, 1), border-color .25s ease, box-shadow .25s ease; }
+      .product-card:hover { transform: translateY(-3px); border-color: #fb294762; box-shadow: inset 0 1px #ffffff12, 0 15px 30px #00000045, 0 0 18px #fb294710; }
+      .product-art { position: relative; display: grid; min-height: 126px; overflow: hidden; place-items: center; border: 1px solid #ffffff12; border-radius: 5px; background: radial-gradient(ellipse at 50% 45%, #e826401e, transparent 58%), #0b0d10; }
+      .product-art::before { position: absolute; inset: 0; background: linear-gradient(#ffffff08 1px, transparent 1px), linear-gradient(90deg, #ffffff08 1px, transparent 1px); background-size: 17px 17px; mask-image: radial-gradient(ellipse, #000, transparent 74%); content: ""; }
+      .product-art svg { position: relative; width: min(72%, 145px); max-height: 92px; }
+      .product-card h3 { margin: 13px 2px 6px; color: #edeff1; font: 550 14px/1.35 Inter, "Segoe UI", sans-serif; text-shadow: 0 0 12px #fff1; }
+      .product-card p { flex: 1; min-height: 37px; margin: 0 2px; color: #999ea6; font-size: 9px; line-height: 1.65; }
+      .product-bottom { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 13px; padding: 10px 2px 1px; border-top: 1px solid #ffffff14; }
+      .product-bottom strong { color: #eceef1; font-size: 13px; font-weight: 550; }
+      .product-bottom button, .product-bottom a { padding: 0; border: 0; background: transparent; color: #ff7183; cursor: pointer; font-size: 9px; text-decoration: none; }
+      .product-bottom button:hover, .product-bottom a:hover { color: white; }
+      .readiness { margin: 7px 2px 0; color: #aab0b8; font: 7px Consolas, monospace; letter-spacing: .35px; }
+      .info-banner { display: flex; align-items: center; gap: 11px; margin-top: 15px; padding: 12px 14px; border: 1px solid #c5cbd32c; border-radius: 6px; background: linear-gradient(100deg, #1a1b1f, #121316); }
+      .info-symbol { display: grid; width: 21px; height: 21px; flex: 0 0 auto; place-items: center; border: 1px solid #c5cbd35c; border-radius: 50%; color: #d9dde2; font: 11px Georgia, serif; }
+      .info-banner strong { display: block; color: #e4e6e9; font-size: 9px; font-weight: 550; }
+      .info-banner span { display: block; margin-top: 3px; color: #a1a5ac; font-size: 8px; line-height: 1.5; }
+      .info-tail { margin-left: auto; color: #c1c6cd; font: 7px Consolas, monospace; letter-spacing: .65px; white-space: nowrap; }
+      .operations { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
+      .panel { padding: 16px; border: 1px solid #c2c8d028; border-radius: 8px; background: linear-gradient(145deg, #141619, #0f1013); box-shadow: inset 0 1px #ffffff0c, 0 10px 25px #00000020; }
+      .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-bottom: 11px; border-bottom: 1px solid #c4cad21c; }
+      .panel-head h2 { margin: 5px 0 0; color: #eff0f2; font: 550 15px/1.3 Inter, "Segoe UI", sans-serif; text-shadow: 0 0 13px var(--white-glow); }
+      .panel-state { padding: 5px 7px; border: 1px solid #c3cad231; border-radius: 99px; color: #d4d8de; font: 7px Consolas, monospace; letter-spacing: .5px; }
+      .telemetry-row { display: flex; min-height: 31px; align-items: center; justify-content: space-between; gap: 10px; border-bottom: 1px solid #ffffff0c; color: #a5a9b0; font-size: 9px; }
+      .telemetry-row:last-child { border-bottom: 0; }
+      .telemetry-row strong { color: #d6d9de; font: 8px Consolas, monospace; text-align: right; }
+      .telemetry-row strong.pending { color: #ff7b8b; }
+      .status-copy { margin: 10px 0 0; color: #898e96; font-size: 8px; line-height: 1.6; }
+      .activity { display: grid; gap: 0; margin-top: 4px; }
+      .activity-row { display: grid; grid-template-columns: 28px 1fr auto; align-items: center; gap: 9px; min-height: 39px; border-bottom: 1px solid #ffffff0d; }
+      .activity-row:last-child { border-bottom: 0; }
+      .activity-icon { display: grid; width: 25px; height: 25px; place-items: center; border: 1px solid #c0c7d02c; border-radius: 5px; color: #e5e8ed; font-size: 11px; }
+      .activity-row strong, .activity-row small { display: block; }
+      .activity-row strong { color: #d9dce1; font-size: 8px; font-weight: 500; }
+      .activity-row small { margin-top: 3px; color: #878c94; font-size: 7px; }
+      .activity-row time { color: #838890; font: 7px Consolas, monospace; }
+      footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; margin-top: 24px; padding: 12px 1px 0; border-top: 1px solid #ffffff15; color: #868a91; font: 7px Consolas, monospace; letter-spacing: .45px; }
+      footer strong { color: #c8cbd0; font-weight: 500; }
+      .hero-art,
+      .stats,
+      .featured,
+      .product-card,
+      .panel,
+      .info-banner {
+        border-color: rgba(255, 43, 69, .82);
+        box-shadow:
+          inset 0 1px rgba(255, 255, 255, .18),
+          0 0 0 1px rgba(255, 43, 69, .16),
+          0 0 18px rgba(255, 28, 58, .2),
+          0 14px 32px rgba(0, 0, 0, .38);
+      }
+      .stats,
+      .featured-visual,
+      .featured-meta,
+      .stat + .stat,
+      .panel-head,
+      .telemetry-row,
+      .activity-row,
+      .product-bottom,
+      footer {
+        border-color: rgba(255, 55, 77, .44);
+      }
+      .product-card:hover {
+        border-color: #ff5269;
+        box-shadow:
+          inset 0 1px rgba(255, 255, 255, .24),
+          0 0 0 1px rgba(255, 43, 69, .34),
+          0 0 25px rgba(255, 28, 58, .34),
+          0 16px 34px rgba(0, 0, 0, .5);
+      }
+      @media (max-width: 900px) {
+        .sidebar { width: 195px; }
+        main { margin-left: 195px; }
+        .hero { grid-template-columns: minmax(0, 1fr) minmax(200px, .76fr); }
+        .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .product-card:last-child { grid-column: 1 / -1; }
+      }
+      @media (max-width: 650px) {
+        .sidebar { position: static; width: auto; height: auto; padding: 13px 16px; border-right: 0; border-bottom: 1px solid #ffffff18; }
+        .brand { padding: 0; }
+        .brand-logo { width: min(100%, 190px); max-width: 190px; height: auto; }
+        .nav-label, .nav, .sidebar-status { display: none; }
+        main { margin-left: 0; min-height: auto; }
+        .topbar { min-height: 52px; padding: 0 15px; }
+        .top-right { gap: 8px; }
+        .local-badge { padding: 6px 7px; font-size: 7px; }
+        .page { padding: 19px 15px 18px; }
+        .hero { grid-template-columns: 1fr; min-height: 0; gap: 19px; padding: 11px 0 21px; }
+        h1 { font-size: clamp(38px, 12vw, 53px); letter-spacing: -1.8px; }
+        .hero-art { min-height: 176px; }
+        .hero-emblem { width: 100%; }
+        .stats { grid-template-columns: 1fr; }
+        .stat { min-height: 47px; padding: 8px 12px; }
+        .stat + .stat { border-top: 1px solid #bdc3cc1b; border-left: 0; }
+        .section-head { align-items: flex-start; flex-direction: column; gap: 5px; }
+        .featured { grid-template-columns: 1fr; }
+        .featured-visual { min-height: 172px; border-right: 0; border-bottom: 1px solid #d4d9df1b; }
+        .product-device { width: 111px; height: 128px; }
+        .featured-copy { padding: 18px; }
+        .featured-copy h3 { font-size: 20px; }
+        .featured-meta { align-items: flex-end; }
+        .featured-meta .button-primary { padding-inline: 10px; font-size: 9px; }
+        .product-grid { grid-template-columns: 1fr; }
+        .product-card:last-child { grid-column: auto; }
+        .product-card p { min-height: 0; }
+        .product-art { min-height: 145px; }
+        .info-tail { display: none; }
+        .operations { grid-template-columns: 1fr; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+      }
+
+      :root {
+        --line: rgba(224, 232, 241, .3);
+        --white-glow: rgba(248, 250, 255, .27);
+        --platinum: #fff;
+        --silver: #d3d9e1;
+      }
+      body {
+        background-image:
+          radial-gradient(ellipse at 73% 10%, rgba(251, 41, 71, .125), transparent 34%),
+          radial-gradient(ellipse at 9% 67%, rgba(185, 194, 206, .035), transparent 31%),
+          linear-gradient(145deg, #0b0c0f, var(--black) 58%);
+      }
+      h1, h2, h3, strong, .button-primary, .button-secondary {
+        color: #fff;
+        font-family: "Segoe UI Variable Display", "Aptos Display", "Arial", sans-serif;
+        font-weight: 650;
+        -webkit-text-stroke: .3px rgba(198, 208, 221, .92);
+        text-shadow: 0 0 1px #fff, 0 0 13px rgba(238, 244, 255, .18);
+      }
+      h1 {
+        font-size: clamp(57px, 7.5vw, 88px);
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        font-weight: 720;
+        letter-spacing: -3.2px;
+        text-shadow: 0 0 1px #fff, 0 0 22px rgba(248, 250, 255, .3), 0 3px 34px rgba(238, 244, 255, .13);
+      }
+      h1 em {
+        color: #ff5269;
+        font-weight: 720;
+        -webkit-text-stroke: .35px #dce2eb;
+        text-shadow: 0 0 1px #fff, 0 0 20px #ff294c88, 0 0 42px #ff294c43;
+      }
+      .section-head h2 { font-size: 33px; letter-spacing: -.8px; }
+      .featured-copy h3 { font-size: 34.5px; line-height: 1.08; letter-spacing: -1px; }
+      .product-card h3 { font-size: 21px; line-height: 1.2; }
+      .panel-head h2 { font-size: 22.5px; }
+      .brand-copy strong { font-size: 15px; letter-spacing: 1.2px; }
+      .sidebar-status strong, .stat strong { font-size: 15px; }
+      .telemetry-row strong, .activity-row strong { font-size: 12px; }
+      footer strong { font-size: 10.5px; }
+      .button-primary, .button-secondary { font-size: 15px; font-weight: 700; }
+      .breadcrumb {
+        color: #fff;
+        font-family: "Segoe UI Variable Display", "Aptos Display", "Arial", sans-serif;
+        font-size: 11px;
+        font-weight: 650;
+        letter-spacing: 1.05px;
+        text-shadow: 0 0 12px #f4f7ff26;
+      }
+      .breadcrumb span { color: #d2d9e3; }
+      .price { color: #fff; font-size: 22px; font-weight: 720; -webkit-text-stroke: .25px #cbd4df; text-shadow: 0 0 14px #f4f7ff36; }
+      .product-bottom strong { color: #fff; font-size: 16px; font-weight: 700; -webkit-text-stroke: .2px #cbd4df; text-shadow: 0 0 12px #f4f7ff2e; }
+      .topbar { border-bottom-color: #e0e7f05c; box-shadow: inset 0 -1px #ffffff10, 0 6px 24px #00000028; }
+      .sidebar { border-right-color: #dce4ef54; box-shadow: inset -1px 0 #ffffff0d, 1px 0 #ffffff08; }
+      .hero-art {
+        border-color: rgba(255, 43, 69, .82);
+        background: radial-gradient(ellipse at 50% 49%, #fb294734, transparent 39%), linear-gradient(145deg, #202329, #0c0d10 68%);
+      }
+      .featured {
+        border-color: rgba(255, 43, 69, .82);
+        background: radial-gradient(ellipse at 24% 54%, #f526422a, transparent 39%), linear-gradient(115deg, #1d2025, #101114 56%, #191b20);
+      }
+      .featured-visual { background: radial-gradient(circle at 50% 48%, #ff304036, transparent 56%); }
+      .product-art { background: radial-gradient(ellipse at 50% 45%, #e8264026, transparent 58%), #0b0d10; }
+      .button-primary {
+        border-color: #ffbec6;
+        background: linear-gradient(112deg, #ff687b 0%, #ff304f 27%, #ef1738 59%, #b50d28 100%);
+        box-shadow: 0 7px 25px #ff29484a, inset 0 1px #fff9, inset 0 -1px #860a1e73;
+        text-shadow: 0 1px #790a1c88;
+      }
+      .button-primary:hover {
+        background: linear-gradient(112deg, #ff8a98 0%, #ff4962 27%, #ff2344 59%, #d31633 100%);
+        box-shadow: 0 11px 32px #ff29486b, inset 0 1px #fff;
+      }
+      .hero-art,
+      .stats,
+      .featured,
+      .product-card,
+      .panel,
+      .info-banner {
+        border-color: rgba(255, 43, 69, .82);
+        box-shadow:
+          inset 0 1px rgba(255, 255, 255, .18),
+          0 0 0 1px rgba(255, 43, 69, .16),
+          0 0 18px rgba(255, 28, 58, .2),
+          0 14px 32px rgba(0, 0, 0, .38);
+      }
+      .stats,
+      .featured-visual,
+      .featured-meta,
+      .stat + .stat,
+      .panel-head,
+      .telemetry-row,
+      .activity-row,
+      .product-bottom,
+      footer { border-color: rgba(255, 55, 77, .44); }
+      .product-card:hover {
+        border-color: #ff5269;
+        box-shadow: inset 0 1px rgba(255, 255, 255, .24), 0 0 0 1px rgba(255, 43, 69, .34), 0 0 25px rgba(255, 28, 58, .34), 0 16px 34px rgba(0, 0, 0, .5);
+      }
+      @media (max-width: 900px) {
+        h1 { font-size: clamp(50px, 7vw, 72px); letter-spacing: -2.7px; }
+        .section-head h2 { font-size: 28px; }
+        .featured-copy h3 { font-size: 29px; }
+        .product-card h3 { font-size: 18px; }
+        .panel-head h2 { font-size: 20px; }
+      }
+      @media (max-width: 650px) {
+        h1 { font-size: clamp(45px, 12vw, 61px); letter-spacing: -2.1px; }
+        .section-head h2 { font-size: 25px; }
+        .featured-copy h3 { font-size: 27px; }
+        .product-card h3 { font-size: 19px; }
+        .panel-head h2 { font-size: 20px; }
+        .price { font-size: 22px; }
+        .product-bottom strong { font-size: 16px; }
+        .button-primary, .button-secondary { font-size: 12px; }
+        .featured-meta .button-primary { font-size: 13px; }
+        .brand-copy strong { font-size: 13px; }
+        .sidebar-status strong, .stat strong { font-size: 13px; }
+        .telemetry-row strong, .activity-row strong { font-size: 11px; }
+      }
+      h1 em {
+        display: inline-block;
+        color: #ef2040;
+        -webkit-text-fill-color: #ef2040;
+        -webkit-text-stroke: .35px #dce2eb;
+        text-shadow: 0 1px 0 #760b1d, 0 2px 0 #380711, 0 5px 13px #000d, 0 0 20px #ef183899, 0 0 38px #d20d2f66;
+      }
+      .brand { width: 100%; }
+      .brand-logo { width: 100%; max-width: 192px; height: auto; aspect-ratio: 1408 / 768; object-fit: contain; }
+      .hero-art { min-height: 0; aspect-ratio: 1408 / 768; }
+      .hero-art::before { opacity: .14; }
+      .hero-emblem { width: 100%; height: 100%; aspect-ratio: 1408 / 768; object-fit: contain; filter: drop-shadow(0 0 26px #fb294743); }
+      .product-device { width: min(86%, 235px); height: auto; aspect-ratio: 1408 / 768; transform: none; }
+      .product-device img { position: relative; z-index: 1; display: block; width: 100%; height: 100%; border-radius: 7px; object-fit: contain; }
+      @media (max-width: 650px) {
+        .brand-logo { width: min(100%, 190px); max-width: 190px; }
+        .hero-art { min-height: 0; }
+        .hero-emblem { width: 100%; height: auto; }
+        .product-device { width: min(86%, 270px); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <a class="brand" href="#home" aria-label="Red Line by QuantEngineer Labs home">
+          <img class="brand-logo" src="quantengineer-labs-logo.png" alt="QuantEngineer Labs silver and crimson logo">
+        </a>
+        <div class="nav-label">WORKSPACE</div>
+        <nav class="nav" aria-label="Store navigation">
+          <a class="active" href="#home"><span>◈</span> Overview</a>
+          <a href="#collection"><span>◇</span> Product collection</a>
+          <a href="#operations"><span>⌁</span> Studio systems</a>
+        </nav>
+        <div class="sidebar-status"><i class="status-pip"></i><span><strong>Red Line storefront</strong><small>Checkout by Gumroad</small></span></div>
+      </aside>
+
+      <main id="home">
+        <header class="topbar">
+          <div class="breadcrumb">QuantEngineer Labs <span>/</span> Red Line</div>
+          <div class="top-right"><span class="local-badge"><i></i> PREMIUM DIGITAL ASSETS</span><span class="top-avatar" aria-hidden="true">RL</span></div>
+        </header>
+        <div class="page">
+          <section class="hero">
+            <div>
+              <div class="eyebrow">QUANTENGINEER LABS · PREMIUM DIGITAL ASSETS</div>
+              <h1>Built for the<br><em>boldly capable.</em></h1>
+              <p class="hero-copy">The premium shelf of QuantEngineer Labs. High-performance digital systems and creative tools, presented with uncompromising clarity, precision, and character.</p>
+              <div class="hero-actions"><a class="button-primary" href="#collection">Explore the collection <span aria-hidden="true">↗</span></a><a class="button-secondary" href="#studio-note">Discover the studio</a></div>
+            </div>
+            <div class="hero-art" role="img" aria-label="QuantEngineer Labs emblem with a precision grid">
+              <img class="hero-emblem" src="quantengineer-labs-logo.png" alt="QuantEngineer Labs silver and crimson logo">
+            </div>
+          </section>
+
+          <section class="stats" aria-label="Studio principles">
+            <div class="stat"><span class="stat-mark">✳</span><span><small>DESIGN STANDARD</small><strong>Precision in every detail</strong></span></div>
+            <div class="stat"><span class="stat-mark">◈</span><span><small>PRODUCT EXPERIENCE</small><strong>Clear, useful, intentional</strong></span></div>
+            <div class="stat"><span class="stat-mark">⌁</span><span><small>MASTER STANDARD</small><strong>Verified before listing</strong></span></div>
+          </section>
+
+          <section id="collection" aria-labelledby="collection-heading">
+            <div class="section-head"><div><div class="eyebrow">FEATURED DIGITAL ASSET</div><h2 id="collection-heading">The signature collection</h2></div><span class="section-note">Checkout and delivery by Gumroad</span></div>
+            <article class="featured">
+              <div class="featured-visual" aria-hidden="true">
+                <div class="product-device">
+                  <img src="quantengineer-labs-logo.png" alt="">
+                </div>
+              </div>
+              <div class="featured-copy">
+                <span class="pill"><i></i> FLAGSHIP · LAUNCHING SEPARATELY</span>
+                <h3>Sovereign Vault</h3>
+                <p>A local-first encrypted file vault you run on your own machine. Complete source build — API, encryption engine, interface, and test suite — verified end to end before listing: files stored encrypted, retrieved byte-identical, wrong passwords rejected.</p>
+                <div class="featured-meta"><div><div class="price">$197<small> COMPLETE BUILD</small></div><div class="tiny-note">Built and verified — the Vault opens after the store, as its own launch.</div></div><a class="button-primary" href="#studio-note">Flagship — arriving next <span aria-hidden="true">↗</span></a></div>
+              </div>
+            </article>
+          </section>
+
+          <section aria-labelledby="other-products-heading">
+            <div class="section-head"><div><div class="eyebrow">EXPLORE THE STUDIO</div><h2 id="other-products-heading">More ways to build</h2></div><span class="section-note">Built in the open · verified before listing</span></div>
+            <div class="product-grid">
+              <article class="product-card">
+                <div class="product-art" aria-hidden="true"><svg viewBox="0 0 180 100" fill="none"><path d="M31 78 90 17l59 61H31Z" stroke="#dce0e5" stroke-opacity=".83"/><path d="M57 78 90 43l34 35H57Zm19 0 14-15 15 15H76Z" stroke="#ff4962" stroke-opacity=".86"/><circle cx="90" cy="58" r="31" stroke="#b8bec7" stroke-opacity=".55"/><circle cx="90" cy="58" r="3" fill="#ff4962"/></svg></div>
+                <h3>Sovereign Agent Kit</h3><p>Modular tools for shaping thoughtful, repeatable workflows.</p><div class="product-bottom"><strong>$397</strong><span>Next Master build</span></div><div class="readiness">IN THE WORKSHOP · IN DEVELOPMENT</div>
+              </article>
+              <article class="product-card">
+                <div class="product-art" aria-hidden="true"><svg viewBox="0 0 180 100" fill="none"><circle cx="90" cy="49" r="29" stroke="#dce0e5" stroke-opacity=".77"/><ellipse cx="90" cy="49" rx="51" ry="17" transform="rotate(-27 90 49)" stroke="#ff4962" stroke-opacity=".8"/><ellipse cx="90" cy="49" rx="51" ry="17" transform="rotate(33 90 49)" stroke="#b8bec7" stroke-opacity=".48"/><circle cx="90" cy="49" r="5" fill="#e4e7eb"/><circle cx="131" cy="28" r="2.5" fill="#ff4962"/></svg></div>
+                <h3>Genesis Blueprint Series</h3><p>A refined digital foundation for turning ambitious concepts into thoughtfully organized work.</p><div class="product-bottom"><strong>$199</strong><span>Next Master build</span></div><div class="readiness">IN THE WORKSHOP · IN DEVELOPMENT</div>
+              </article>
+              <article class="product-card">
+                <div class="product-art" aria-hidden="true"><svg viewBox="0 0 180 100" fill="none"><rect x="47" y="14" width="86" height="66" rx="4" stroke="#cfd4db" stroke-opacity=".85"/><path d="M60 28h59M60 39h40M60 50h53M60 61h30" stroke="#ff4962" stroke-opacity=".82"/><path d="M48 86h84" stroke="#aeb4bd" stroke-opacity=".55"/><circle cx="125" cy="67" r="2.5" fill="#f3f4f6"/></svg></div>
+                <h3>Digital Studio Tools</h3><p>Purposeful building blocks for an independent digital practice — quickstart kits and workflow tools, live now.</p><div class="product-bottom"><strong>From $3</strong><a href="https://quantengineer4.gumroad.com" aria-label="Shop Digital Studio Tools on Gumroad">Shop on Gumroad ↗</a></div><div class="readiness">LIVE · ON GUMROAD</div>
+              </article>
+            </div>
+          </section>
+
+          <div class="info-banner" id="studio-note"><span class="info-symbol">i</span><div><strong>The premium shelf of QuantEngineer Labs</strong><span>Every Red Line product is a verified working build — tested before it is listed, and described exactly as tested. Checkout, payment, and file delivery are handled securely by Gumroad.</span></div><span class="info-tail">RED LINE</span></div>
+
+          <section class="operations" id="operations">
+            <article class="panel">
+              <div class="panel-head"><div><div class="micro-label">SYSTEM STATUS</div><h2>A considered studio stack</h2></div><span class="panel-state">LIVE CATALOG</span></div>
+              <div class="telemetry-row"><span>Design system</span><strong>RED LINE</strong></div>
+              <div class="telemetry-row"><span>Checkout provider</span><strong>GUMROAD</strong></div>
+              <div class="telemetry-row"><span>Product fulfillment</span><strong>GUMROAD DELIVERY</strong></div>
+              <div class="telemetry-row"><span>Customer data</span><strong>HELD BY GUMROAD</strong></div>
+              <p class="status-copy">Payments and delivery run through Gumroad. Red Line never sees or stores your card details.</p>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><div><div class="micro-label">DESIGN PRINCIPLES</div><h2>Built to feel intentional</h2></div><span class="panel-state">4 PILLARS</span></div>
+              <div class="activity">
+                <div class="activity-row"><span class="activity-icon">◈</span><span><strong>Distinctive identity</strong><small>Custom silver-and-crimson vector mark</small></span><time>01</time></div>
+                <div class="activity-row"><span class="activity-icon">◎</span><span><strong>Legible hierarchy</strong><small>Subtle title glow, calm supporting copy</small></span><time>02</time></div>
+                <div class="activity-row"><span class="activity-icon">⌗</span><span><strong>Responsive by design</strong><small>Desktop, tablet, and compact layouts</small></span><time>03</time></div>
+              </div>
+            </article>
+          </section>
+
+          <footer><span><strong>RL</strong> &nbsp; RED LINE BY QUANTENGINEER LABS</span><span>RED LINE STOREFRONT / 01</span><span>CHECKOUT BY GUMROAD</span></footer>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
